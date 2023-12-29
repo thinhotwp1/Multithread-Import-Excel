@@ -1,7 +1,7 @@
 # Multithread-Import-Excel
 Multithread Import Excel In Java 🧵🧵🧵
 
-Link tài liệu docs: [Link drive docs]([https://github.com/user/repo/blob/branch/other_file.md](https://docs.google.com/document/d/1IOsCud4O-l9TShI1FyhGtZa6hrECxbOtKP3qCT9cPbo/edit?usp=sharing)https://docs.google.com/document/d/1IOsCud4O-l9TShI1FyhGtZa6hrECxbOtKP3qCT9cPbo/edit?usp=sharing)
+🍹 Link tài liệu docs: https://docs.google.com/document/d/1IOsCud4O-l9TShI1FyhGtZa6hrECxbOtKP3qCT9cPbo/edit?usp=sharing
 
 Cách sử dụng source code:
 1. Thay đổi user và password mysql
