@@ -24,6 +24,38 @@ public class AnyService {
     @Autowired
     ImportRepository importRepository;
 
+
+    public String getDetailThreads() {
+        try {
+            Thread t = Thread.currentThread();
+            System.out.println("List thread in thread group parent: ");
+            t.getThreadGroup().list();
+
+            String detail = "Name: " + t.getName()
+                    + "\nId: " + t.getId()
+                    + "\nAlive: " + t.isAlive()
+                    + "\nState: " + t.getState()
+                    + "\nPriority: " + t.getPriority()
+                    + "\nDaemon: " + t.isDaemon()
+                    + "\nInterrupted: " + t.isInterrupted()
+                    + "\nThread Group: " + t.getThreadGroup()
+                    + "\nGetParent: " + t.getThreadGroup().getParent()
+                    + "\nActiveCount: " + t.getThreadGroup().activeCount()
+                    + "\nActiveGroupCount: " + t.getThreadGroup().activeGroupCount()
+                    + "\nContext Class Loader: " + t.getContextClassLoader()
+                    + "\nStack Trace: " + t.getStackTrace()
+                    + "\nUncaught Exception Handler: " + t.getUncaughtExceptionHandler()
+                    + "\nThread Group: " + t.getThreadGroup();
+
+            System.out.println(detail);
+
+            return detail;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            throw new RuntimeException("Failed to load CSV data", ex);
+        }
+    }
+
     public Long importDataOneThread() {
         try {
             Long start = System.currentTimeMillis();

@@ -28,4 +28,12 @@ public class AnyController {
     public ResponseEntity<?> importDataMultiThread() {
         return ResponseEntity.ok(anyService.importDataMultiThread());
     }
+
+    /*
+     * Hàm test get detail các luồng trong thread group http request
+     * */
+    @GetMapping("/get-detail-threads")
+    public ResponseEntity<?> getDetailThreads() {
+        return ResponseEntity.ok(anyService.getDetailThreads());
+    }
 }
