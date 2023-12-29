@@ -10,3 +10,7 @@ Cách sử dụng source code:
 5. Chạy lần lượt các GET API và bật Jvisualvm hoặc Jconsole để monitoring hệ thống.
 
 Good luck ! 📘 
+
+![image](https://github.com/thinhotwp1/Multithread-Import-Excel/assets/61654110/49eb210a-8831-47a6-83c5-b4ee4083673b)
+![image](https://github.com/thinhotwp1/Multithread-Import-Excel/assets/61654110/dcd16379-d826-49c0-a7ca-50d59ad727e3)
+![image](https://github.com/thinhotwp1/Multithread-Import-Excel/assets/61654110/7b01cb8e-d77d-458b-bc9a-0ad6690f85f3)
