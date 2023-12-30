@@ -24,57 +24,7 @@ public class AnyService {
     @Autowired
     ImportRepository importRepository;
 
-
-    public String getDetailThreads() {
-        try {
-            Thread t = Thread.currentThread();
-            System.out.println("List thread in thread group parent: ");
-            t.getThreadGroup().list();
-
-            String detail = "Name: " + t.getName()
-                    + "\nId: " + t.getId()
-                    + "\nAlive: " + t.isAlive()
-                    + "\nState: " + t.getState()
-                    + "\nPriority: " + t.getPriority()
-                    + "\nDaemon: " + t.isDaemon()
-                    + "\nInterrupted: " + t.isInterrupted()
-                    + "\nThread Group: " + t.getThreadGroup()
-                    + "\nGetParent: " + t.getThreadGroup().getParent()
-                    + "\nActiveCount: " + t.getThreadGroup().activeCount()
-                    + "\nActiveGroupCount: " + t.getThreadGroup().activeGroupCount()
-                    + "\nContext Class Loader: " + t.getContextClassLoader()
-                    + "\nStack Trace: " + t.getStackTrace()
-                    + "\nUncaught Exception Handler: " + t.getUncaughtExceptionHandler()
-                    + "\nThread Group: " + t.getThreadGroup();
-
-            System.out.println(detail);
-
-            return detail;
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            throw new RuntimeException("Failed to load CSV data", ex);
-        }
-    }
-
-    public Long importDataOneThread() {
-        try {
-            Long start = System.currentTimeMillis();
-            List<DataCommunity> dataCommunities = readFileCSV();
-
-            // Lưu data vào database sử dụng one thread
-            System.out.println("Number of data: " + dataCommunities.size());
-            System.out.println("Insert to database ...");
-            importRepository.saveAllAndFlush(dataCommunities);
-
-            Long end = System.currentTimeMillis();
-            System.out.println("Time: " + (end - start) + " ms");
-            return end - start;
-        } catch (Exception ex) {
-            throw new RuntimeException("Failed to load CSV data", ex);
-        }
-    }
-
-    public Long importDataMultiThread() {
+    public Long importMultiThread() {
         Long start = System.currentTimeMillis();
         List<DataCommunity> dataCommunities = readFileCSV();
         System.out.println("Number of data: " + dataCommunities.size());
@@ -88,26 +38,17 @@ public class AnyService {
             lists.add(batch);
         }
 
-        /* Tạo số lượng thread tương ứng với số lượng list data, với server 8gb ram, chip i5 nên để 15-25 luồng
-         , nên bật jconsole để xem lượng ram, thread, cpu mà application sử dụng để chọn số lượng luồng phù hợp,
-         kiểm tra số lượng kết nối của database tối đa nhận được để tránh miss object khi import,
-         đã xảy ra trường hợp import đa luồng và miss mất 20.000 bản ghi do quá tải connection gọi tới database
-         */
-
         int numThreads = lists.size();
         System.out.println("Number of threads: " + numThreads);
         ExecutorService executor = Executors.newFixedThreadPool(numThreads);
 
-        // Import  multi thread
-        var ref = new Object() {
-            int begin = 1;
-            int done = 1;
-        };
         for (List<DataCommunity> listData : lists) {
             executor.submit(() -> {
-                System.out.println("Index thread begin: " + ref.begin++ + ", thread name: " + Thread.currentThread().getName());
+                System.out.println("Index thread begin: " + Thread.currentThread().getId()
+                        + ", thread name: " + Thread.currentThread().getName());
                 importRepository.saveAllAndFlush(listData);
-                System.out.println("Index thread done: " + ref.done++ + ", thread name: " + Thread.currentThread().getName());
+                System.out.println("Index thread done: " + Thread.currentThread().getId()
+                        + ", thread name: " + Thread.currentThread().getName());
             });
         }
 
@@ -140,5 +81,10 @@ public class AnyService {
                 .build();
 
         return csvToBean.parse();
+    }
+
+    public String callGarbageCollector() {
+        System.gc();
+        return "Success";
     }
 }
